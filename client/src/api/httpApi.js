@@ -1,18 +1,20 @@
 // The real client. Every function here talks to YOUR Express API.
-//
-// This is the file that matters for your finals project. mockApi.js exists so
-// you can build the interface before this has anywhere to point.
+
+import { getDeviceId } from './deviceId.js'
 
 const BASE = import.meta.env.VITE_API_BASE_URL || ''
 
 async function request(path, options) {
   const response = await fetch(`${BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include', // required for the browser's Basic Auth prompt to work cross-origin
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Device-Id': getDeviceId(),
+    },
     ...options,
   })
 
   if (!response.ok) {
-    // Try to use the API's own message; fall back to the status line.
     let message = `${response.status} ${response.statusText}`
     try {
       const body = await response.json()
@@ -26,15 +28,18 @@ async function request(path, options) {
   return response.status === 204 ? null : response.json()
 }
 
-export const listSightings = () => request('/api/sightings')
+export const listLoads = () => request('/api/loads')
 
-export const getSighting = (id) => request(`/api/sightings/${id}`)
+export const createLoad = (input) =>
+  request('/api/loads', { method: 'POST', body: JSON.stringify(input) })
 
-export const createSighting = (input) =>
-  request('/api/sightings', { method: 'POST', body: JSON.stringify(input) })
+export const deleteLoad = (id) =>
+  request(`/api/loads/${id}`, { method: 'DELETE' })
 
-export const updateSighting = (id, input) =>
-  request(`/api/sightings/${id}`, { method: 'PUT', body: JSON.stringify(input) })
+export const listClothing = () => request('/api/clothing')
 
-export const deleteSighting = (id) =>
-  request(`/api/sightings/${id}`, { method: 'DELETE' })
+export const createClothing = (input) =>
+  request('/api/clothing', { method: 'POST', body: JSON.stringify(input) })
+
+export const deleteClothing = (id) =>
+  request(`/api/clothing/${id}`, { method: 'DELETE' })

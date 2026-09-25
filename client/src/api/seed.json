@@ -1,8 +1,11 @@
-[
-  { "id": "seed-1", "place": "Library, third floor", "description": "Chairs rearranged overnight, every time. The night guard says he locks the room himself.", "spookiness": 3, "reported_at": "2026-08-01T14:20:00.000Z" },
-  { "id": "seed-2", "place": "Old gym", "description": "Lights flicker in a fixed pattern after 9pm, always three short and one long.", "spookiness": 4, "reported_at": "2026-08-03T11:05:00.000Z" },
-  { "id": "seed-3", "place": "Parking basement", "description": "Footsteps with no one there. Reported separately by three different people in one week, which is what makes this one hard to dismiss. Two of them were alone at the time and did not know about the others. This entry is deliberately long, because a seed row of four words hides every text-wrapping bug you have.", "spookiness": 5, "reported_at": "2026-08-05T22:40:00.000Z" },
-  { "id": "seed-4", "place": "Canteen", "description": "A cold spot near the back door, every morning before seven.", "spookiness": 1, "reported_at": "2026-08-06T07:15:00.000Z" },
-  { "id": "seed-5", "place": "AB Building stairwell", "description": "", "spookiness": 2, "reported_at": "2026-08-08T18:30:00.000Z" },
-  { "id": "seed-6", "place": "Chapel garden", "description": "Someone humming. Stops the moment you turn around.", "spookiness": 3, "reported_at": "2026-08-10T05:50:00.000Z" }
-]
+{
+  "clothing": [
+    { "id": "seed-c1", "name": "Blue wool sweater", "category": "Delicate", "last_washed_date": "2026-09-16" },
+    { "id": "seed-c2", "name": "Button-down oxford", "category": "Whites", "last_washed_date": "2026-09-14" },
+    { "id": "seed-c3", "name": "Denim jacket", "category": "Heavy Fabric", "last_washed_date": "2026-09-18" }
+  ],
+  "loads": [
+    { "id": "seed-l1", "date": "2026-09-13", "loadType": "Machine wash", "weight": 3.2, "weightUnit": "kg", "cost": 80, "notes": "", "clothingIds": [] },
+    { "id": "seed-l2", "date": "2026-09-17", "loadType": "Dry clean", "weight": 1.5, "weightUnit": "kg", "cost": 250, "notes": "Sweater and jacket", "clothingIds": ["seed-c1", "seed-c3"] }
+  ]
+}
