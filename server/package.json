@@ -5,10 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "dev": "node --env-file=.env --watch server.js",
-    "db:schema": "node --env-file=.env db/run.js db/schema.sql",
-    "db:seed": "node --env-file=.env db/run.js db/seed.sql",
-    "db:reset": "npm run db:schema && npm run db:seed"
+    "dev": "node --env-file=.env --watch server.js"
   },
   "engines": {
     "node": ">=20"

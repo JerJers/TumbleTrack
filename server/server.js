@@ -1,31 +1,72 @@
 import express from 'express'
 import cors from 'cors'
 import { pool } from './db/pool.js'
-import * as sightings from './sightingsRepo.js'
+import * as loads from './loadsRepo.js'
+import * as clothing from './clothingRepo.js'
 
 const app = express()
 
-// CORS before the routes. Middleware registered after a route never sees that
-// route's requests, which is the m4 lesson showing up in production.
-//
-// Name your origins. app.use(cors()) with no options sends
-// Access-Control-Allow-Origin: *, which lets any site on the internet call this
-// API from a visitor's browser, and is incompatible with cookies.
+// CORS before the routes. Name your origins — app.use(cors()) with no
+// options sends Access-Control-Allow-Origin: *, which lets any site call
+// this API from a visitor's browser.
 const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean)
 
-app.use(cors({ origin: allowedOrigins }))
+app.use(cors({ origin: allowedOrigins, credentials: true }))
 app.use(express.json({ limit: '100kb' }))
 
-// Is the process alive?
+// This app has no login, and once a database is attached it's a live,
+// writable public URL. Gate everything behind HTTP Basic Auth so a random
+// visitor can't POST/DELETE data. /healthz is left open so Render's own
+// health checks (which send no credentials) keep working.
+//
+// BASIC_AUTH_USER / BASIC_AUTH_PASS live only in environment variables —
+// your local .env (git-ignored) and your host's settings panel. Never in
+// source, never in the public repo. Share the real values with graders
+// only through a private channel (e.g. your course workspace README),
+// never in the repository itself.
+function requireBasicAuth(request, response, next) {
+  const header = request.header('authorization') || ''
+  const [scheme, encoded] = header.split(' ')
+
+  if (scheme === 'Basic' && encoded) {
+    const decoded = Buffer.from(encoded, 'base64').toString('utf-8')
+    const separatorIndex = decoded.indexOf(':')
+    const user = decoded.slice(0, separatorIndex)
+    const pass = decoded.slice(separatorIndex + 1)
+
+    if (user === process.env.BASIC_AUTH_USER && pass === process.env.BASIC_AUTH_PASS) {
+      return next()
+    }
+  }
+
+  response.set('WWW-Authenticate', 'Basic realm="TumbleTrack"')
+  response.status(401).json({ error: 'Authentication required' })
+}
+
+app.use((request, response, next) => {
+  if (request.path === '/healthz') return next()
+  return requireBasicAuth(request, response, next)
+})
+
+// No accounts: every request must carry an X-Device-Id header, generated
+// and stored by the client on first launch. This is the app's only
+// ownership boundary — every repo query filters by it.
+app.use((request, response, next) => {
+  const deviceId = request.header('x-device-id')
+  if (!deviceId || deviceId.length > 100) {
+    return response.status(400).json({ error: 'Missing or invalid X-Device-Id header' })
+  }
+  request.deviceId = deviceId
+  next()
+})
+
 app.get('/healthz', (request, response) => {
   response.json({ ok: true })
 })
 
-// Is the database reachable? A different question, and the one that tells you
-// in two seconds which half of a problem you have.
 app.get('/readyz', async (request, response) => {
   try {
     await pool.query('SELECT 1')
@@ -36,90 +77,103 @@ app.get('/readyz', async (request, response) => {
   }
 })
 
-// Validation lives on the server because the client can be bypassed. The
-// browser form is for a fast, friendly message; this is for correctness.
-function validate(body) {
+// Validation lives on the server because the client can be bypassed.
+function validateLoad(body) {
   const errors = []
-  const place = typeof body.place === 'string' ? body.place.trim() : ''
-  const description =
-    typeof body.description === 'string' ? body.description.trim() : ''
-  const spookiness = Number(body.spookiness)
+  const date = typeof body.date === 'string' ? body.date.trim() : ''
+  const loadType = typeof body.loadType === 'string' ? body.loadType.trim() : ''
+  const weight = Number(body.weight)
+  const cost = Number(body.cost)
+  const notes = typeof body.notes === 'string' ? body.notes.trim() : ''
+  const clothingIds = Array.isArray(body.clothingIds)
+    ? body.clothingIds.map(Number).filter(Number.isInteger)
+    : []
 
-  if (!place) errors.push('place is required')
-  if (place.length > 120) errors.push('place must be 120 characters or fewer')
-  if (description.length > 2000) errors.push('description must be 2000 characters or fewer')
-  if (!Number.isInteger(spookiness) || spookiness < 1 || spookiness > 5) {
-    errors.push('spookiness must be a whole number from 1 to 5')
+  if (!date) errors.push('date is required')
+  if (!loadType) errors.push('loadType is required')
+  if (loadType.length > 40) errors.push('loadType must be 40 characters or fewer')
+  if (!(weight > 0)) errors.push('weight must be a positive number')
+  if (!(cost >= 0)) errors.push('cost must be zero or a positive number')
+  if (notes.length > 500) errors.push('notes must be 500 characters or fewer')
+
+  return {
+    errors,
+    value: { date, loadType, weight, weightUnit: 'kg', cost, notes, clothingIds },
   }
-
-  return { errors, value: { place, description, spookiness } }
 }
 
-app.get('/api/sightings', async (request, response, next) => {
+function validateClothing(body) {
+  const errors = []
+  const name = typeof body.name === 'string' ? body.name.trim() : ''
+  const category = typeof body.category === 'string' ? body.category.trim() : ''
+  const lastWashedDate = typeof body.lastWashedDate === 'string' ? body.lastWashedDate.trim() : ''
+
+  if (!name) errors.push('name is required')
+  if (name.length > 120) errors.push('name must be 120 characters or fewer')
+  if (category.length > 40) errors.push('category must be 40 characters or fewer')
+
+  return { errors, value: { name, category, lastWashedDate } }
+}
+
+// ---- loads ----
+
+app.get('/api/loads', async (request, response, next) => {
   try {
-    response.json(await sightings.getAll(pool))
-  } catch (error) {
-    next(error)
-  }
+    response.json(await loads.getAll(request.deviceId))
+  } catch (error) { next(error) }
 })
 
-app.get('/api/sightings/:id', async (request, response, next) => {
-  try {
-    const row = await sightings.getById(pool, request.params.id)
-    if (!row) return response.status(404).json({ error: 'Not found' })
-    response.json(row)
-  } catch (error) {
-    next(error)
-  }
-})
-
-app.post('/api/sightings', async (request, response, next) => {
-  const { errors, value } = validate(request.body ?? {})
+app.post('/api/loads', async (request, response, next) => {
+  const { errors, value } = validateLoad(request.body ?? {})
   if (errors.length > 0) return response.status(400).json({ error: errors.join('; ') })
 
   try {
-    response.status(201).json(await sightings.create(pool, value))
-  } catch (error) {
-    next(error)
-  }
+    response.status(201).json(await loads.create(request.deviceId, value))
+  } catch (error) { next(error) }
 })
 
-app.put('/api/sightings/:id', async (request, response, next) => {
-  const { errors, value } = validate(request.body ?? {})
-  if (errors.length > 0) return response.status(400).json({ error: errors.join('; ') })
-
+app.delete('/api/loads/:id', async (request, response, next) => {
   try {
-    const row = await sightings.update(pool, request.params.id, value)
-    if (!row) return response.status(404).json({ error: 'Not found' })
-    response.json(row)
-  } catch (error) {
-    next(error)
-  }
-})
-
-app.delete('/api/sightings/:id', async (request, response, next) => {
-  try {
-    const removed = await sightings.remove(pool, request.params.id)
+    const removed = await loads.remove(request.deviceId, request.params.id)
     if (!removed) return response.status(404).json({ error: 'Not found' })
     response.status(204).end()
-  } catch (error) {
-    next(error)
-  }
+  } catch (error) { next(error) }
+})
+
+// ---- clothing ----
+
+app.get('/api/clothing', async (request, response, next) => {
+  try {
+    response.json(await clothing.getAll(request.deviceId))
+  } catch (error) { next(error) }
+})
+
+app.post('/api/clothing', async (request, response, next) => {
+  const { errors, value } = validateClothing(request.body ?? {})
+  if (errors.length > 0) return response.status(400).json({ error: errors.join('; ') })
+
+  try {
+    response.status(201).json(await clothing.create(request.deviceId, value))
+  } catch (error) { next(error) }
+})
+
+app.delete('/api/clothing/:id', async (request, response, next) => {
+  try {
+    const removed = await clothing.remove(request.deviceId, request.params.id)
+    if (!removed) return response.status(404).json({ error: 'Not found' })
+    response.status(204).end()
+  } catch (error) { next(error) }
 })
 
 app.use((request, response) => {
   response.status(404).json({ error: 'No such route' })
 })
 
-// The detail goes in your logs; the visitor gets a plain message. Sending a
-// stack trace to a stranger tells them about your file layout and dependencies.
 app.use((error, request, response, next) => {
   console.error(error)
   response.status(500).json({ error: 'Something went wrong on the server' })
 })
 
-// The host chooses the port and tells you through PORT. Hardcoding 3000 is the
-// commonest reason a first deploy is marked unhealthy and killed.
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
