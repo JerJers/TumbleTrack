@@ -1,20 +1,56 @@
 import { useEffect, useState } from "react";
 import { api } from "../apiClient";
 import LoadCard from "../components/molecules/LoadCard";
+import FormControl from "../components/atoms/FormControl";
+
+const LOAD_TYPES = ["All types", "Machine wash", "Hand wash", "Dry clean"];
 
 export default function HistoryPage() {
   const [loads, setLoads] = useState([]);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [loadType, setLoadType] = useState("All types");
 
   useEffect(() => { api.getLoads().then(setLoads); }, []);
+
+  const filtered = loads.filter((l) => {
+    if (fromDate && l.date < fromDate) return false;
+    if (toDate && l.date > toDate) return false;
+    if (loadType !== "All types" && l.loadType !== loadType) return false;
+    return true;
+  });
+
+  const clearFilters = () => {
+    setFromDate("");
+    setToDate("");
+    setLoadType("All types");
+  };
+
+  const filtersActive = fromDate || toDate || loadType !== "All types";
 
   return (
     <div className="screen">
       <h1>History</h1>
 
-      {loads.length === 0 && <div className="muted">No laundry logged yet.</div>}
+      <div className="card" style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "flex-end" }}>
+        <FormControl type="date" label="From" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
+        <FormControl type="date" label="To" value={toDate} onChange={(e) => setToDate(e.target.value)} />
+        <FormControl type="select" label="Load type" value={loadType} onChange={(e) => setLoadType(e.target.value)} options={LOAD_TYPES} />
+        {filtersActive && (
+          <button onClick={clearFilters} className="btn btn-secondary" style={{ height: 38 }}>
+            Clear filter
+          </button>
+        )}
+      </div>
+
+      {filtered.length === 0 && (
+        <div className="muted">
+          {loads.length === 0 ? "No laundry logged yet." : "No loads match this filter."}
+        </div>
+      )}
 
       <div className="history-cards">
-        {loads.map((l) => <LoadCard key={l.id} {...l} />)}
+        {filtered.map((l) => <LoadCard key={l.id} {...l} />)}
       </div>
 
       <table className="history-table">
@@ -24,7 +60,7 @@ export default function HistoryPage() {
           </tr>
         </thead>
         <tbody>
-          {loads.map((l) => (
+          {filtered.map((l) => (
             <tr key={l.id}>
               <td>{l.date}</td>
               <td>{l.loadType}</td>
