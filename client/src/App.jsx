@@ -7,7 +7,7 @@ import HistoryPage from "./pages/HistoryPage";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="app-shell">
         <NavBar />
         <main className="app-main">
