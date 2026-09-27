@@ -11,6 +11,7 @@ export default function ClothingPage() {
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState({ name: "", category: CATEGORIES[0], lastWashedDate: "" });
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   const load = () => api.getClothing().then(setClothing);
   useEffect(() => { load(); }, []);
@@ -19,12 +20,16 @@ export default function ClothingPage() {
 
   const handleSave = async () => {
     setSaving(true);
+    setError(null);
     try {
       await api.addClothing(form);
       setForm({ name: "", category: CATEGORIES[0], lastWashedDate: "" });
       setModalOpen(false);
       await load();
-    } finally {
+    }  catch (err) {
+      setError(err.message || "Could not save this item. Please Try Again.");
+    } 
+    finally {
       setSaving(false);
     }
   };
@@ -46,6 +51,7 @@ export default function ClothingPage() {
             <FormControl type="select" label="Category" value={form.category} onChange={set("category")} options={CATEGORIES} />
             <FormControl type="date" label="Last washed date (optional, defaults to today)" value={form.lastWashedDate} onChange={set("lastWashedDate")} />
             <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
+              {error && (<div style={{ color: "#b42318", fontSize: 13 }}>{error}</div>)}
               <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
               <Button variant="primary" disabled={!form.name || saving} onClick={handleSave}>
                 {saving ? "Saving…" : "Save"}
