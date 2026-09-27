@@ -55,6 +55,8 @@ app.use((request, response, next) => {
 // and stored by the client on first launch. This is the app's only
 // ownership boundary — every repo query filters by it.
 app.use((request, response, next) => {
+  if (request.path === '/healthz' || request.path === '/readyz') return next()
+
   const deviceId = request.header('x-device-id')
   if (!deviceId || deviceId.length > 100) {
     return response.status(400).json({ error: 'Missing or invalid X-Device-Id header' })
