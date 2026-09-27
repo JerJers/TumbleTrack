@@ -18,6 +18,7 @@ export default function LogLoadPage() {
     clothingIds: [],
   });
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => { api.getClothing().then(setClothing); }, []);
 
@@ -36,10 +37,14 @@ export default function LogLoadPage() {
 
   const handleSave = async () => {
     setSaving(true);
+    setError(null);
     try {
       await api.addLoad({ ...form, weight: Number(form.weight), cost: Number(form.cost), weightUnit: "kg" });
       navigate("/");
-    } finally {
+    } catch(err)  {
+      setError(err.message || "Could not save this load, Please Try Again.");
+    } 
+    finally {
       setSaving(false);
     }
   };
@@ -65,6 +70,7 @@ export default function LogLoadPage() {
         ))}
       </div>
 
+      {error && (<div style={{ color: "#b42318", fontSize: 13}}>{error}</div>)}
       <Button variant="primary" disabled={!canSave || saving} onClick={handleSave}>
         {saving ? "Saving…" : "Save"}
       </Button>
