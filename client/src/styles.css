@@ -256,6 +256,8 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 }
 @media (min-width: 768px) {
   .modal-sheet { border-radius: var(--radius-lg); width: 320px; }
+  .modal-overlay--center { align-items: center; }
+  .modal-overlay--center .modal-sheet { border-radius: var(--radius-lg); width: min(320px, 90vw); }
 }
 
 /* ---- Carried over from the template: demo-mode banner + error alert ---- */
