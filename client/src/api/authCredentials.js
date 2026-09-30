@@ -5,7 +5,7 @@ export function getAuthHeader() {
     if (!value) {
         const user = window.prompt('TumbleTrack username:')
         const pass = window.prompt('TumbleTrack password:')
-        value = btoa(`${user || "}:${pass || "}`)
+        value = btoa(`${user || ''}:${pass || ''}`)
         localStorage.setItem(KEY, value)
     }
     return `Basic ${value}`
