@@ -4,57 +4,119 @@ import ClothingCard from "../components/molecules/ClothingCard";
 import FormControl from "../components/atoms/FormControl";
 import Button from "../components/atoms/Button";
 
-const CATEGORIES = ["Delicate", "Whites", "Heavy Fabric", "Lights", "Darks", "Lint Givers", "Heavily Soiled"];
+const CATEGORIES = [
+  "Delicate",
+  "Whites",
+  "Heavy Fabric",
+  "Lights",
+  "Darks",
+  "Lint Givers",
+  "Heavily Soiled",
+];
+
+const INITIAL_FORM = {
+  name: "",
+  category: CATEGORIES[0],
+  lastWashedDate: "",
+};
 
 export default function ClothingPage() {
   const [clothing, setClothing] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
-  const [form, setForm] = useState({ name: "", category: CATEGORIES[0], lastWashedDate: "" });
-  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState(INITIAL_FORM);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const load = () => api.getClothing().then(setClothing);
-  useEffect(() => { load(); }, []);
+  const loadClothing = async () => {
+    const data = await api.getClothing();
+    setClothing(data);
+  };
 
-  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
+  useEffect(() => {
+    loadClothing();
+  }, []);
+
+  const handleInputChange = (key, value) => {
+    setForm((prevForm) => ({
+      ...prevForm,
+      [key]: value,
+    }));
+  };
+  
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setForm(INITIAL_FORM);
+    setError(null);
+  };
 
   const handleSave = async () => {
-    setSaving(true);
+    setLoading(true);
     setError(null);
+
     try {
       await api.addClothing(form);
-      setForm({ name: "", category: CATEGORIES[0], lastWashedDate: "" });
-      setModalOpen(false);
-      await load();
-    }  catch (err) {
-      setError(err.message || "Could not save this item. Please Try Again.");
-    } 
-    finally {
-      setSaving(false);
+      handleCloseModal();
+      await loadClothing();
+    } catch (err) {
+      setError(err.message || "Could not save this item, Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <div className="screen">
-      <p className="muted">Special &amp; delicate items only — not your whole wardrobe</p>
-      <Button variant="primary" onClick={() => setModalOpen(true)}>+ Add clothing item</Button>
+      <p className="muted">Special &amp; Clothing items only - not your whole wardrobe</p>
+
+      <Button variant="primary" onClick={() => setModalOpen(true)}>
+        + Add Clothing Item
+      </Button>
 
       <div className="clothing-grid">
-        {clothing.map((c) => <ClothingCard key={c.id} {...c} />)}
+        {clothing.map((item) => (
+          <ClothingCard key={item.id} {...item} />
+        ))}
       </div>
 
       {modalOpen && (
         <div className="modal-overlay">
           <div className="modal-sheet">
-            <h2 style={{ fontSize: 14, fontWeight: 600 }}>Add clothing item</h2>
-            <FormControl label="Name" value={form.name} onChange={set("name")} />
-            <FormControl type="select" label="Category" value={form.category} onChange={set("category")} options={CATEGORIES} />
-            <FormControl type="date" label="Last washed date (optional, defaults to today)" value={form.lastWashedDate} onChange={set("lastWashedDate")} />
+            <h2 style={{ fontSize: 14, fontWeight: 600 }}>Add Clothing Item</h2>
+
+            <FormControl
+              label="Name"
+              value={form.name}
+              onChange={(e) => handleInputChange("name", e.target.value)}
+            />
+
+            <FormControl 
+              type="select"
+              label="Category"
+              value={form.category}
+              options={CATEGORIES}
+              onChange={(e) => handleInputChange("category", e.target.value)}
+            />
+
+            <FormControl 
+              type="date"
+              label="Last Washed Date"
+              value={form.lastWashedDate}
+              onChange={(e) => handleInputChange("lastWashedDate", e.target.value)}
+            />
+
             <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-              {error && (<div style={{ color: "#b42318", fontSize: 13 }}>{error}</div>)}
-              <Button variant="secondary" onClick={() => setModalOpen(false)}>Cancel</Button>
-              <Button variant="primary" disabled={!form.name || saving} onClick={handleSave}>
-                {saving ? "Saving…" : "Save"}
+              {error && (
+                <div style={{ color: "#b42318", fontSize: 13 }}>
+                  {error}
+                </div>
+              )}
+
+              <Button variant="secondary" onClick={handleCloseModal}>
+                Cancel
+              </Button>
+
+              <Button variant="primary" disabled={!form.name || loading} onClick={handleSave}>
+                {loading ? "Saving..." : "Save"}      
               </Button>
             </div>
           </div>
