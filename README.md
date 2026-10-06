@@ -1,5 +1,7 @@
 # TumbleTrack
 
+![Built with AI assistance](https://img.shields.io/badge/built%20with-AI%20assistance-0b5fff)
+
 A laundry tracker for students living in dorms, boarding houses, or shared
 apartments — log every laundry load, and keep tabs on when special or
 delicate items were last washed, without needing to create an account.
@@ -171,15 +173,13 @@ directly.
 
 ## Author
 
-Jeremiah — Computer Science student, Holy Angel University.
+6APSI - Holy Angel University.
 
 ## AI use
 
 Built with heavy AI assistance (Claude) across planning, wireframing, the
 design system, and most of the application code. See
 [AI-USAGE.md](./AI-USAGE.md) for the full account.
-
-![Built with AI assistance](https://img.shields.io/badge/built%20with-AI%20assistance-0b5fff)
 
 ## Licence
 
