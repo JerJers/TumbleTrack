@@ -279,7 +279,7 @@ These are screenshots of the running application. They are stored in `docs/asset
 
 ![Dashboard](docs/assets/Dashboard.png)
 
-![Log a load](docs/assets/logLoad.png)
+![Log a load](docs/assets/LogLoad.png)
 
 ![Clothing items](docs/assets/Clothing.png)
 
