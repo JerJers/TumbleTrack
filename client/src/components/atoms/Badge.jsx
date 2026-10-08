@@ -1,5 +1,4 @@
-// Tones from 03-design-system-laundry-day.md — add a matching .badge-*
-// class in index.css whenever a new category is introduced.
+// Add a matching .badge-* class in styles.css whenever a new category is introduced.
 const TONE_CLASS = {
   Delicate: "badge-delicate",
   Whites: "badge-whites",

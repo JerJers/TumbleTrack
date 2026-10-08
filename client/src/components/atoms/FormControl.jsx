@@ -1,4 +1,4 @@
-export default function FormControl({ type = "text", label, value, onChange, options, error, ...rest }) {
+export default function FormControl({ type = "text", label, value, onChange, options, ...rest }) {
   const inputId = label ? label.toLowerCase().replace(/\s+/g, "-") : undefined;
 
   return (
@@ -15,7 +15,6 @@ export default function FormControl({ type = "text", label, value, onChange, opt
       ) : (
         <input id={inputId} type={type} value={value} onChange={onChange} {...rest} />
       )}
-      {error && <span className="error">{error}</span>}
     </div>
   );
 }

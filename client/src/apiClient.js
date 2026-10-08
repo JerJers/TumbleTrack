@@ -1,7 +1,5 @@
-// Small adapter so the page components (written against a `api.getX()`
-// style) can call the template's real api/index.js functions — the ones
-// that already handle the mock/live switch, the device-id header, and
-// error messages. Nothing here talks to the network itself.
+// Small adapter so the pages can call `api.getX()` style functions backed by
+// api/index.js (which handles the mock/live switch). No network code here.
 
 import {
   listLoads, createLoad, deleteLoad,

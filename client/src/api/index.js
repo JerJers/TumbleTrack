@@ -1,4 +1,4 @@
-// The only file your components import from.
+// The only file the app imports its data functions from.
 //
 //   VITE_USE_MOCK_API=false  -> your Express API at VITE_API_BASE_URL
 //   anything else, INCLUDING UNSET -> the browser-only fake

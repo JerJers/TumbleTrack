@@ -1,7 +1,6 @@
-/* Design tokens — from 03-design-system-laundry-day.md */
+/* Design tokens */
 :root {
   --color-primary: #1D9E75;
-  --color-accent: #378ADD;
   --color-bg: #FAFAF8;
   --color-surface: #FFFFFF;
   --color-ink: #2C2C2A;
@@ -11,8 +10,6 @@
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
-  --space-4: 32px;
-  --space-5: 40px;
 
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -178,7 +175,6 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   background: var(--color-surface);
 }
 .form-control textarea { min-height: 64px; }
-.form-control .error { font-size: var(--font-small); color: #B23B3B; }
 
 /* ---- Badge ---- */
 .badge {
@@ -260,7 +256,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   .modal-overlay--center .modal-sheet { border-radius: var(--radius-lg); width: min(320px, 90vw); }
 }
 
-/* ---- Carried over from the template: demo-mode banner + error alert ---- */
+/* ---- Demo-mode banner ---- */
 .demo-notice {
   background: #FFF6DD;
   border: 1px solid #E0BF6A;
@@ -268,11 +264,4 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   padding: var(--space-1) var(--space-2);
   margin: 0 0 var(--space-2);
   font-size: var(--font-small);
-}
-.error {
-  background: #FDEAEA;
-  border: 1px solid #D98A8A;
-  border-radius: var(--radius-md);
-  padding: var(--space-1) var(--space-2);
-  margin: 0 0 var(--space-2);
 }
