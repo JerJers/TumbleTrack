@@ -277,23 +277,27 @@ These are screenshots of the running application. They are stored in `docs/asset
 
 ### Desktop
 
-![Dashboard](docs/assets/dashboard.png)
+![Dashboard](docs/assets/Dashboard.png)
 
-![Log a load](docs/assets/log-load.png)
+![Log a load](docs/assets/logLoad.png)
 
-![Clothing items](docs/assets/clothing.png)
+![Clothing items](docs/assets/Clothing.png)
 
-![Add clothing item](docs/assets/add-clothing.png)
+![Add clothing item](docs/assets/AddClothing.png)
 
-![History with filters](docs/assets/history.png)
+![History with filters](docs/assets/History.png)
 
 ### Mobile
 
-![Mobile dashboard](docs/assets/mobile-dashboard.png)
+![Mobile dashboard](docs/assets/MobileDashboard.png)
 
-![Mobile log a load](docs/assets/mobile-log-load.png)
+![Mobile log a load](docs/assets/MobileLogLoad.png)
 
-![Mobile history](docs/assets/mobile-history.png)
+![Mobile Clothing](docs/assets/MobileClothing.png)
+
+![Mobile Clothing](docs/assets/MobileAddClothing.png)
+
+![Mobile history](docs/assets/MobileHistory.png)
 
 Design references (mockups and the design system) are in `docs/02-mockup.md` and `docs/03-design-system.md`. The live application is the source of truth for the implemented interface.
 
