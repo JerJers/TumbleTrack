@@ -279,23 +279,7 @@ These are screenshots of the running application. They are stored in `docs/asset
 
 ![Dashboard](docs/assets/Dashboard.png)
 
-![Log a load](docs/assets/LogLoad.png)
-
-![Clothing items](docs/assets/Clothing.png)
-
-![Add clothing item](docs/assets/AddClothing.png)
-
-![History with filters](docs/assets/History.png)
-
 ### Mobile
-
-![Mobile dashboard](docs/assets/MobileDashboard.png)
-
-![Mobile log a load](docs/assets/MobileLogLoad.png)
-
-![Mobile Clothing](docs/assets/MobileClothing.png)
-
-![Mobile Clothing](docs/assets/MobileAddClothing.png)
 
 ![Mobile history](docs/assets/MobileHistory.png)
 
