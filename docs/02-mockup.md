@@ -1,24 +1,40 @@
-# Mockup
+# TumbleTrack - Mockup
+TumbleTrack is a lightweight laundry-tracking application designed for dorm students and young adults living independently who manage their own laundry routines. The application provides an intuitive interface to log individual wash loads, monitor weekly spending, and maintain an inventory of delicate or special garments to ensure they are washed on schedule without being over-washed.
 
-Your prelim wireframes are finished and are not being redone. The mockup is what
-the app will actually look like: the wireframes painted in, with your real
-colours, type, spacing and content.
+# Desktop Viewport
 
-**This is submitted as images or a PDF.** A written description of a picture
-scores in the lowest band, because the thing being asked for is the picture.
+### Dashboard Screen
+![Dashboard](assets/Dashboard.png)
 
-Put the exported images in `assets/` and link them here, so the repository
-carries them too.
+### Log a Load Screen
+![Log a load](assets/LogLoad.png)
 
-## What it should show
+### Clothing Screen
+![Clothing items](assets/Clothing.png)
 
-- Every screen in your revised proposal, and no screens that are not in it
-- Real content, not "Lorem ipsum" and not "Title here"
-- The empty state of at least one screen, because that is the one people forget
-- What it looks like on a phone
+### Add a Clothing Item Modal
+![Add clothing item](assets/AddClothing.png)
 
-## Honest note
+### History Screen
+![History with filters](assets/History.png)
 
-Anything in the mockup that is not in the built app by the end needs a sentence
-in your journal explaining what happened. That is a normal part of building
-something, and saying so reads far better than quietly shipping less.
+***
+
+# Mobile Viewport
+
+### Dashboard Screen
+![Dashboard](assets/MobileDashboard.png)
+
+### Log a Load Screen
+![Log a load](assets/MobileLogLoad.png)
+
+### Clothing Screen
+![Clothing items](assets/MobileClothing.png)
+
+### Add a Clothing Item Modal
+![Add clothing item](assets/MobileAddClothing.png)
+
+### History Screen
+![History with filters](assets/MobileHistory.png)
+
+***
