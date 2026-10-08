@@ -16,9 +16,9 @@ export default function NavBar() {
 
   return (
     <>
-      {/* Desktop: sidebar (unchanged) */}
+      {/* Desktop: sidebar */}
       <nav className="navbar-desktop">
-        <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>TumbleTrack</div>
+        <header style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>TumbleTrack</header>
         {ROUTES.map((r) => (
           <NavLink key={r.to} to={r.to} end={r.to === "/"} className={linkClass}>
             {r.label}
@@ -45,10 +45,10 @@ export default function NavBar() {
 
       {/* Phone: drawer that slides in from the left */}
       <nav className={`navbar-drawer${open ? " open" : ""}`} aria-label="Main navigation">
-        <div className="navbar-drawer-head">
+        <header className="navbar-drawer-head">
           <span style={{ fontSize: 14, fontWeight: 700 }}>TumbleTrack</span>
           <button className="navbar-drawer-close" onClick={close} aria-label="Close menu">✕</button>
-        </div>
+        </header>
         {ROUTES.map((r) => (
           <NavLink key={r.to} to={r.to} end={r.to === "/"} className={linkClass} onClick={close}>
             {r.label}

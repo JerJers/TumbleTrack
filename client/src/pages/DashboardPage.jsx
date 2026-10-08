@@ -4,7 +4,6 @@ import { api } from "../apiClient";
 import DemoNotice from "../components/DemoNotice.jsx";
 import StatCard from "../components/molecules/StatCard";
 import LoadCard from "../components/molecules/LoadCard";
-import Button from "../components/atoms/Button"
 
 const OVERDUE_DAYS = 7;
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -83,9 +82,7 @@ export default function DashboardPage() {
       </div>
     </>
   )}
-    <Link to="/log">
-      <Button variant="primary"> + Log Load</Button>
-    </Link>
+    <Link to="/log" className="btn btn-primary">+ Log Load</Link>
   </div>
   );
 }

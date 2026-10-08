@@ -1,6 +1,5 @@
-/* Design tokens */
 :root {
-  --color-primary: #1D9E75;
+  --color-primary: #177E5E;
   --color-bg: #FAFAF8;
   --color-surface: #FFFFFF;
   --color-ink: #2C2C2A;
@@ -118,10 +117,15 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   flex-direction: column;
   gap: var(--space-2);
   transform: translateX(-100%);
-  transition: transform 0.25s ease;
+  visibility: hidden;
+  transition: transform 0.25s ease, visibility 0s linear 0.25s;
   z-index: 30;
 }
-.navbar-drawer.open { transform: translateX(0); }
+.navbar-drawer.open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform 0.25s ease, visibility 0s;
+}
 .navbar-drawer-head {
   display: flex;
   align-items: center;
@@ -161,6 +165,10 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 .btn-primary { background: var(--color-primary); color: #fff; }
 .btn-secondary { background: var(--color-surface); color: var(--color-ink); border-color: var(--color-border); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+a.btn { display: inline-block; text-decoration: none; }
+
+/* Visible keyboard focus on every interactive element */
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
 
 /* ---- FormControl ---- */
 .form-control { display: flex; flex-direction: column; gap: var(--space-0); }
@@ -191,7 +199,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 .badge-heavy-fabric { background: #DCEBFA; color: #1B4E82; }
 .badge-lights { background: #FFF6D2; color: #8A6D1F; }
 .badge-darks { background: #3A3A40; color: #fff; }
-.badge-lint-givers { background: #FDE9DA; color: #B5651D; }
+.badge-lint-givers { background: #FDE9DA; color: #9F591A; }
 .badge-heavily-soiled { background: #FBDADA; color: #B23B3B; }
 
 /* ---- Cards ---- */
@@ -209,7 +217,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 @media (min-width: 768px) {
   .stat-grid { grid-template-columns: repeat(4, 1fr); }
 }
-.stat-label { font-size: var(--font-small); color: rgba(44, 44, 42, 0.6); }
+.stat-label { font-size: var(--font-small); color: rgba(44, 44, 42, 0.7); }
 .stat-value { font-size: 20px; font-weight: 700; }
 
 .clothing-grid {
@@ -221,7 +229,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   .clothing-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
-.muted { color: rgba(44, 44, 42, 0.5); font-size: var(--font-small); }
+.muted { color: rgba(44, 44, 42, 0.7); font-size: var(--font-small); }
 
 /* ---- History table (desktop) / cards (phone) ---- */
 .history-table { width: 100%; border-collapse: collapse; font-size: var(--font-small); display: none; }
@@ -229,7 +237,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
   .history-table { display: table; }
   .history-cards { display: none; }
 }
-.history-table th { text-align: left; color: rgba(44, 44, 42, 0.6); padding: var(--space-1); border-bottom: 1px solid var(--color-border); }
+.history-table th { text-align: left; color: rgba(44, 44, 42, 0.7); padding: var(--space-1); border-bottom: 1px solid var(--color-border); }
 .history-table td { padding: var(--space-1); border-top: 1px solid var(--color-border); }
 .history-cards { display: flex; flex-direction: column; gap: var(--space-1); }
 
