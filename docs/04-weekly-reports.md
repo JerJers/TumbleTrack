@@ -1,31 +1,73 @@
 # Weekly Reports
 
-## Week of 2026-09-26
+## Week of 2026-07-30
 
-**Done.**  
-The main application screens are now created and functional, including the dashboard, log load screen, clothing screen for tracking special/delicate items, and history screen for displaying laundry records. The required app components and styling were also implemented. API endpoints were debugged and connected to temporary local/in-memory storage so user inputs could be recorded and displayed.
+**Done.**
+- The authentication problem for mobile version is complete, the Frontend and API are now communicates the moment a user entered the correct username and password.
+- Added a authentication modal using the existing modal design, to improvement the looks of the login.
+- Understand the logic behind each screens, to create a contribution to the web app and be prepare to explain the web app to the users.
+- Rewrote and refactored the 4 screens to make my own contributions to the web app.
+- Complete the AI-Usage.md as a requirement for the third week of app development.
 
-**Stuck.**  
-I encountered repeated API routing errors, particularly with incorrect or mixed-up path parameters. These errors prevented user data from being properly logged into the in-memory data. The database had also not yet been implemented.
+**Stuck.**
+- Understanding the logic behind the 4 screens and how it communicates with the backend.
+- Fixing the authentication problems for mobile version, it keeps repeating the same errors. Either the app lose its' communication to the API or the login prompt keeps prompting every time I switch screens
 
-**Hours.**  
-6 Hours
+**Hours.**
+- About 8 Hours
 
-**Next.**  
-Implement the database and continue debugging the API and application. Add the application logo once the main application is completed.
+**Next.**
+- Prepare and Record the presentation video of the web app, that will serve as a Demo video and Presentation of the whole web app.
 
 ---
 
-## Week of 2026-10-01
+## Week of 2026-09-23
 
-**Done.**  
-The application code was successfully committed and pushed to the repository. The Neon database and Render environment were set up, and the frontend and backend are now communicating successfully. The API is connected to the database, GitHub repository variables were configured, and the application was tested in its deployed environment.
+**Done.**
+- Successfully committed and pushed the application code to the repository.
+- Set up the Neon database.
+- Set up the Render environment for the API.
+- Connected the frontend and backend successfully.
+- Connected the API to the database.
+- Tested the application after deployment.
+- Configured the required variables in the GitHub repository.
+- Confirmed that the deployed application can communicate with the backend and database.
 
-**Stuck.**  
-The main issue encountered was the `deviceId`. The application generates different `deviceId` values when a user enters a new laundry load even when the loads are coming from the same account. This creates an inconsistency in identifying the same user's device/account. A problem also arise in mobile version of the app, the authentication is missing, it means the app has no communication with the API.
+**Stuck.**
+- The `deviceId` is inconsistent.
+- A new laundry load from the same account can receive a different `deviceId`.
+- This makes it difficult to consistently identify the same device/account across multiple laundry loads.
 
-**Hours.**  
-8 Hours
+**Hours.**
+- About 7 Hours
 
-**Next.**  
-Fix the `deviceId` consistency issue and improve the application's design or features. Fix the authentication for the mobile version of the web app. Continue addressing bugs and incorporating feedback from the professor.
+**Next.**
+- Fix the `deviceId` consistency issue.
+- Improve the application's design and features while continuing to address bugs and professor feedback.
+
+---
+
+## Week of 2026-09-18
+
+**Done.**
+- Created the dashboard screen.
+- Added dashboard updates whenever a user records a new laundry load or clothing item.
+- Created the log load screen for recording information about a completed laundry load.
+- Created the clothing screen for tracking special and delicate clothing items.
+- Created the history screen for displaying recorded laundry logs in a table.
+- Created and fixed the main application components before placing them in their respective screens.
+- Added the initial application styling.
+- Debugged and tested API endpoints to ensure their routes and purposes were correct.
+- Added temporary local/in-memory storage for holding user inputs.
+
+**Stuck.**
+- Encountered repeated API routing errors.
+- Mixed up path parameters, which caused problems when logging data into the in-memory storage.
+- The database had not yet been implemented.
+
+**Hours.**
+- About 8 Hours
+
+**Next.**
+- Implement the database for persistent data storage.
+- Continue debugging the application and resolve errors that appear during development.
