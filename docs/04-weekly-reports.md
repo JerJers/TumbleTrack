@@ -18,6 +18,7 @@
 
 **Next.**
 - Prepare and Record the presentation video of the web app, that will serve as a Demo video and Presentation of the whole web app.
+- Making sure the app is up and running and available by using the live application link: https://jerjers.github.io/TumbleTrack/
 
 ---
 
