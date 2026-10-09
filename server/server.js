@@ -4,6 +4,7 @@ import { pool } from './db/pool.js'
 import * as loads from './loadsRepo.js'
 import * as clothing from './clothingRepo.js'
 import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
 
 const app = express()
 
@@ -28,6 +29,14 @@ app.use(helmet());
 // source, never in the public repo. Share the real values with graders
 // only through a private channel (e.g. your course workspace README),
 // never in the repository itself.
+
+app.set('trust proxy', 1);
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  skipSuccessfulRequests: true,
+}));
+
 function requireBasicAuth(request, response, next) {
   const header = request.header('authorization') || ''
   const [scheme, encoded] = header.split(' ')
