@@ -167,7 +167,6 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 .btn-primary { background: var(--color-primary); color: #fff; }
 .btn-secondary { background: var(--color-surface); color: var(--color-ink); border-color: var(--color-border); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-compact {padding: 6px var(--space-2); }
 a.btn { display: inline-block; text-decoration: none; }
 
 /* Visible keyboard focus on every interactive element */
