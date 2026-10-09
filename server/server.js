@@ -101,7 +101,14 @@ function validateLoad(body) {
     ? body.clothingIds.map(Number).filter(Number.isInteger)
     : []
 
-  if (!date) errors.push('date is required')
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+
+  if (!date) {
+    errors.push('date is required') 
+  } else if (!dateRegex.test(date)) {
+    errors.push('date must be in YYYY-MM-DD format')
+  }
+
   if (!loadType) errors.push('loadType is required')
   if (loadType.length > 40) errors.push('loadType must be 40 characters or fewer')
   if (!(weight > 0)) errors.push('weight must be a positive number')
@@ -120,10 +127,15 @@ function validateClothing(body) {
   const category = typeof body.category === 'string' ? body.category.trim() : ''
   const lastWashedDate = typeof body.lastWashedDate === 'string' ? body.lastWashedDate.trim() : ''
 
+  const dateRegex = /^\d{4}-\d{2}-\d{2}$/
+
   if (!name) errors.push('name is required')
   if (name.length > 120) errors.push('name must be 120 characters or fewer')
   if (category.length > 40) errors.push('category must be 40 characters or fewer')
-
+  if (lastWashedDate && !dateRegex.test(lastWashedDate)) {
+    errors.push('lastWashedDate must be in YYYY-MM-DD format')
+  }
+  
   return { errors, value: { name, category, lastWashedDate } }
 }
 
