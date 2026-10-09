@@ -9,6 +9,8 @@
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
+  --space-4: 32px;
+  --space-5: 40px;
 
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -166,6 +168,7 @@ h1 { font-size: var(--font-heading); font-weight: 700; }
 .btn-secondary { background: var(--color-surface); color: var(--color-ink); border-color: var(--color-border); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 a.btn { display: inline-block; text-decoration: none; }
+.btn-compact {padding: 6px var(--space-2); }
 
 /* Visible keyboard focus on every interactive element */
 :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }
