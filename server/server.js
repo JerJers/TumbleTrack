@@ -3,6 +3,7 @@ import cors from 'cors'
 import { pool } from './db/pool.js'
 import * as loads from './loadsRepo.js'
 import * as clothing from './clothingRepo.js'
+import helmet from 'helmet';
 
 const app = express()
 
@@ -16,7 +17,7 @@ const allowedOrigins = (process.env.CORS_ORIGINS || 'http://localhost:5173')
 
 app.use(cors({ origin: allowedOrigins, credentials: true }))
 app.use(express.json({ limit: '100kb' }))
-
+app.use(helmet());
 // This app has no login, and once a database is attached it's a live,
 // writable public URL. Gate everything behind HTTP Basic Auth so a random
 // visitor can't POST/DELETE data. /healthz is left open so Render's own
