@@ -32,6 +32,7 @@ TumbleTrack keeps a simple record of laundry activity: what was washed, how heav
 | --- | --- |
 | Frontend | React 18, Vite, React Router, plain CSS |
 | Backend | Node.js 20 or newer, Express |
+| Security & Middleware | Helmet, Express Rate Limit |
 | Database | PostgreSQL (Neon) |
 | Hosting | GitHub Pages (client), Render (API), Neon (database) |
 
