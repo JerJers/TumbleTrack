@@ -82,7 +82,7 @@ export default function DashboardPage() {
       </div>
     </>
   )}
-    <Link to="/log" className="btn btn-primary">+ Log Load</Link>
+    <Link to="/log" className="btn btn-primary btn-compact">+ Log Load</Link>
   </div>
   );
 }
