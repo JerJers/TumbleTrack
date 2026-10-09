@@ -49,7 +49,8 @@ export default function AuthModal() {
         </Button>
 
         <p className="text-xs text-gray-500 mt-4 text-center">
-          TumbleTrack stores the loads and clothing items you enter, linked to a random ID kept in this browser. Do not enter personal details in notes[cite: 1].
+          TumbleTrack stores the loads and clothing items you enter, linked to a random ID kept in this browser. 
+          Do not enter personal details in notes.
         </p>
       </form>
     </div>
